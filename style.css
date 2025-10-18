@@ -1,0 +1,145 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: "Outfit", sans-serif;
+    outline: none;
+}
+
+body {
+    background-color: #206d65;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container {
+    background: linear-gradient(180deg, #1c655d, #206961, #206d65);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.logo {
+    width: 300px;
+    margin: 0 20px 20px;
+}
+
+main {
+    width: 375px;
+    border-radius: 20px;
+    background-color: #F4F4F4;
+    margin: 0px auto 40px;
+    padding: 44px 24px 23px;
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+.initial-state {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+label {
+    color: #777777;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+label:focus-within {
+    color: #206961;
+}
+
+select, input {
+    background-color: #FFFFFF;
+    border: 1px solid #BBBBBB;
+    border-radius: 4px;
+    height: 48px;
+    width: 100%;
+    margin-bottom: 24px;
+    appearance: none;
+    padding-left: 18px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #555555;
+    cursor: pointer;
+}
+
+button {
+    background-color: #206961;
+    border-radius: 5px;
+    width: 100%;
+    border: none;
+    height: 48px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    transition: all 0.1s ease-in;
+}
+
+select:focus {
+    border-color: #206961;
+    transition: border-color 0.3s ease;
+}
+
+input {
+    cursor: text;
+}
+
+input:focus {
+    border-color: #206961;
+    transition: border-color 0.3s ease;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+button:active {
+    opacity: 0.6;
+    transform: scale(0.98);
+}
+
+section {
+    border: 1px solid #206961;
+    border-radius: 20px;
+    margin-top: 36px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@keyframes arrow-bounce {
+    0%, 100% {
+        transform: translateY(-2px);
+    }
+    50% {
+        transform: translateY(4px);
+    }
+}
+
+.arrow-img {
+    margin: 15px 0px;
+    animation: arrow-bounce 0.8s ease-in-out infinite;
+}
+
+.currency-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.currency {
+    color: #777777;
+    font-size: 14px;
+}
+
+.currency-value-to-convert, .currency-value-converted {
+    color: #555555;
+    font-weight: 700;
+    font-size: 20px;
+}
