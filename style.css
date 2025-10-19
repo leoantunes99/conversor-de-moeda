@@ -93,6 +93,12 @@ input:focus {
     transition: border-color 0.3s ease;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 button:hover {
     opacity: 0.8;
 }
@@ -102,7 +108,7 @@ button:active {
     transform: scale(0.98);
 }
 
-section {
+.second-section {
     border: 1px solid #206961;
     border-radius: 20px;
     margin-top: 36px;
@@ -142,4 +148,35 @@ section {
     color: #555555;
     font-weight: 700;
     font-size: 20px;
+}
+
+@media screen and (min-width: 890px) {
+    main {
+        width: 60%;
+        max-width: 600px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 20px;
+        flex-wrap: wrap;
+    }
+
+    .first-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    button {
+        order: 1;
+        border-radius: 10px;
+    }
+
+    .second-section {
+        display: flex;
+        margin-top: 0;
+        width: 40%;
+        margin-bottom: 1rem;
+        border-radius: 10px;
+    }
 }
