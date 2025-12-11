@@ -6,43 +6,66 @@ const mainElement = document.querySelector("main")
 
 window.addEventListener("load", () => {
     mainElement.classList.remove("initial-state")
+    getExchangeRatesAndConvert() 
 })
 
-// Tabela de configuração das moedas
 const currencies = {
     real: {
         name: "Real Brasileiro",
         image: "./assets/real.png",
         format: { locale: "pt-BR", currency: "BRL" },
-        rate: 1
+        rate: 1,
     },
     dolar: {
         name: "Dólar Americano",
         image: "./assets/dolar.png",
         format: { locale: "en-US", currency: "USD" },
-        rate: 6
+        rate: 0,
     },
     euro: {
         name: "Euro",
         image: "./assets/euro.png",
         format: { locale: "de-DE", currency: "EUR" },
-        rate: 6.6
+        rate: 0,
     },
     libra: {
         name: "Libra",
         image: "./assets/libra.png",
         format: { locale: "en-GB", currency: "GBP" },
-        rate: 7.3
+        rate: 0,
     },
     bitcoin: {
         name: "Bitcoin",
         image: "./assets/bitcoin.png",
-        format: { locale: "en-US", currency: "BTC" }, // usaremos especial
-        rate: 476993.19
+        format: { locale: "en-US", currency: "BTC" },
+        rate: 0,
     }
 }
 
-// Função principal de conversão
+async function getExchangeRatesAndConvert() {
+    try {
+        const response = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL')
+        const data = await response.json()
+        
+        const usdToBrl = parseFloat(data.USDBRL.ask)
+        const eurToBrl = parseFloat(data.EURBRL.ask)
+        const btcToBrl = parseFloat(data.BTCBRL.ask)
+
+        currencies.dolar.rate = 1 / usdToBrl
+        currencies.euro.rate = 1 / eurToBrl
+        currencies.bitcoin.rate = 1 / btcToBrl
+
+        const eurToGbp = 0.85;
+        currencies.libra.rate = currencies.euro.rate / eurToGbp;
+        
+        convertValuesConverted()
+
+    } catch (error) {
+        console.error("Erro ao buscar as taxas de câmbio:", error)
+        alert("Não foi possível carregar as taxas de câmbio. Usando taxas desatualizadas.")
+    }
+}
+
 function convertValuesConverted() {
     const inputCurrencyValue = parseFloat(document.querySelector(".input-currency").value) || 0
     const currencyValueToConvert = document.querySelector(".currency-value-to-convert")
@@ -51,13 +74,9 @@ function convertValuesConverted() {
     const from = currencies[currencySelectToConvert.value]
     const to = currencies[currencySelectConverted.value]
 
-    // Passo 1: converter moeda de origem → REAL
-    const valueInReal = inputCurrencyValue * from.rate
+    const valueInReal = inputCurrencyValue / from.rate
+    const finalValue = valueInReal * to.rate 
 
-    // Passo 2: converter REAL → moeda de destino
-    const finalValue = valueInReal / to.rate
-
-    // Exibir valor de origem
     if (currencySelectToConvert.value === "bitcoin") {
         currencyValueToConvert.innerHTML = inputCurrencyValue.toFixed(6) + " BTC"
     } else {
@@ -67,7 +86,6 @@ function convertValuesConverted() {
         }).format(inputCurrencyValue)
     }
 
-    // Exibir valor convertido
     if (currencySelectConverted.value === "bitcoin") {
         currencyValueConverted.innerHTML = finalValue.toFixed(6) + " BTC"
     } else {
@@ -78,7 +96,6 @@ function convertValuesConverted() {
     }
 }
 
-// Atualiza moeda de destino (nome e imagem)
 function changeCurrencyConverted() {
     const currencyName = document.getElementById("currency-name")
     const currencyImage = document.querySelector(".currency-img")
@@ -90,9 +107,8 @@ function changeCurrencyConverted() {
     convertValuesConverted()
 }
 
-// Atualiza moeda de origem (nome e imagem)
 function changeCurrencyToConvert() {
-    const currencyNameToConvert = document.querySelector(".currency-box .currency")
+    const currencyNameToConvert = document.querySelector("section .currency-box .currency")
     const currencyImage = document.querySelector("section .currency-box img")
     const from = currencies[currencySelectToConvert.value]
 
@@ -102,7 +118,6 @@ function changeCurrencyToConvert() {
     convertValuesConverted()
 }
 
-// Eventos
 currencySelectToConvert.addEventListener("change", changeCurrencyToConvert)
 currencySelectConverted.addEventListener("change", changeCurrencyConverted)
 convertButton.addEventListener("click", convertValuesConverted)
